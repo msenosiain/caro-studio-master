@@ -1,8 +1,6 @@
 # List of repositories to synchronize
 # One on each line
 
-caro-studio-main-be
-caro-studio-main-fe
-caro-studio-admin-be
 caro-studio-admin-fe
-caro-studio-common-febe
+caro-studio-api
+caro-studio-main-fe
