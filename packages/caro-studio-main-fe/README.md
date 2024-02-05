@@ -1,2 +1,2 @@
-# caro-studio-master
+# caro-studio-main-fe
 Main FE for Caro Studio App
