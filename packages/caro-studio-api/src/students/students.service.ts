@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { RegisterStudentDto } from './dto/register-student.dto';
+import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './schemas/student.schema';
 
@@ -11,24 +11,26 @@ export class StudentsService {
     @InjectModel(Student.name) private studentModel: Model<Student>,
   ) {}
 
-  create(createStudentDto: RegisterStudentDto): Promise<Student> {
-    const createdStudent = new this.studentModel(createStudentDto);
-    return createdStudent.save();
+  async create(createStudentDto: CreateStudentDto): Promise<Student> {
+    const createdStudent = await this.studentModel.create(createStudentDto);
+    return createdStudent.toJSON();
   }
 
   findAll(): Promise<Student[]> {
     return this.studentModel.find().exec();
   }
 
-  findOne(id: number): Promise<Student> {
-    return this.studentModel.findById(id).exec();
+  findOneById(id: string): Promise<Student> {
+    return this.studentModel.findOne({ _id: id }).exec();
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return this.studentModel.findByIdAndUpdate(id, updateStudentDto).exec();
+  update(id: string, updateStudentDto: UpdateStudentDto) {
+    return this.studentModel
+      .findOneAndUpdate({ _id: id }, updateStudentDto, { new: true })
+      .exec();
   }
 
-  remove(id: number) {
-    return this.studentModel.findByIdAndDelete(id).exec();
+  remove(id: string) {
+    return this.studentModel.findOneAndDelete({ _id: id }).exec();
   }
 }

@@ -1,7 +1,6 @@
-import { RegisterStudentDto } from './register-student.dto';
-import { OmitType } from '@nestjs/swagger';
+import { CreateStudentDto } from './create-student.dto';
+import { OmitType, PartialType } from '@nestjs/swagger';
 
-export class UpdateStudentDto extends OmitType(RegisterStudentDto, [
-  'email',
-  'password',
-] as const) {}
+export class UpdateStudentDto extends PartialType(
+  OmitType(CreateStudentDto, ['email', 'password'] as const),
+) {}

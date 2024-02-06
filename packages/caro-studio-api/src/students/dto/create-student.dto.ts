@@ -4,17 +4,23 @@ import {
   IsEmail,
   IsNotEmpty,
   IsNumberString,
+  Matches,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
-export class RegisterStudentDto {
+export class CreateStudentDto {
   @ApiProperty()
+  @IsNotEmpty()
   firstName: string;
 
   @ApiProperty()
+  @IsNotEmpty()
   lastName: string;
 
   @ApiProperty()
   @IsNumberString()
+  @MaxLength(8)
   idNumber: number;
 
   @ApiProperty()
@@ -26,6 +32,9 @@ export class RegisterStudentDto {
   email: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @MinLength(8)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'password too weak',
+  })
   password: string;
 }
